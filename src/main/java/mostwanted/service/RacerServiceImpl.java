@@ -84,25 +84,19 @@ public class RacerServiceImpl implements RacerService {
 
     @Override
     public String exportRacingCars() {
-        StringBuilder exportResult = new StringBuilder();
+        StringBuilder output = new StringBuilder();
         List<Racer> racers = this.racerRepository.exportRacingCars();
 
-        racers.stream().forEach(racer -> {
-            exportResult.append(String.format("Name: %s", racer.getName())).append(System.lineSeparator());
-            if (racer.getAge() != null) {
-                exportResult.append(String.format("Age: %d", racer.getAge())).append(System.lineSeparator());
+        for (Racer racer : racers) {
+            output.append(String.format("Name: %s", racer.getName())).append(System.lineSeparator());
+            output.append("Cars:").append(System.lineSeparator());
+            for (Car car : racer.getCars()) {
+                output.append(String.format("%s %s %s", car.getBrand(), car.getModel(), car.getYearOfProduction())).append(System.lineSeparator());
             }
+            output.append(System.lineSeparator());
+        }
 
-            exportResult.append("Cars:").append(System.lineSeparator());
-            racer.getCars().stream().forEach(car -> {
-                exportResult
-                        .append(String.format("\t%s %s %d", car.getBrand(), car.getModel(), car.getYearOfProduction()))
-                        .append(System.lineSeparator());
-            });
-
-            exportResult.append(System.lineSeparator());
-        });
-
-        return exportResult.toString().trim();
+        return output.toString();
     }
+   
 }
