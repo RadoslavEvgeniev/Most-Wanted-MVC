@@ -17,8 +17,9 @@ public interface RacerRepository extends JpaRepository<Racer, Integer> {
             "SELECT r " +
             "FROM mostwanted.domain.entities.Racer r " +
             "JOIN r.cars c " +
+            "WHERE r.age is not null " +
             "GROUP BY r " +
-            "ORDER BY size(r.cars) DESC , r.name "
+            "ORDER BY size(r.cars) DESC , r.name"
     )
     List<Racer> exportRacingCars();
 }
